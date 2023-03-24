@@ -2,7 +2,7 @@ package heap
 
 import (
 	"fmt"
-	"github.com/devsquared/gods/queue/test"
+	"github.com/devsquared/gods/test"
 	"github.com/google/go-cmp/cmp"
 	"testing"
 )

@@ -2,8 +2,8 @@ package queue
 
 import (
 	"fmt"
-	"github.com/devsquared/gods/queue/heap"
-	"github.com/devsquared/gods/queue/test"
+	heap2 "github.com/devsquared/gods/heap"
+	"github.com/devsquared/gods/test"
 	"github.com/google/go-cmp/cmp"
 	"testing"
 )
@@ -120,7 +120,7 @@ func TestPriorityQueue_Pop(t *testing.T) {
 		expectedValue  any
 		expectedErr    error
 		expectedLength int
-		underlyingHeap *heap.MaxHeap
+		underlyingHeap *heap2.MaxHeap
 	}
 
 	pQueueWithSingleItem := NewPriorityQueue()
@@ -130,10 +130,10 @@ func TestPriorityQueue_Pop(t *testing.T) {
 	pQueueWithMultipleItems.Push(PQItem{value: "hello", priority: 1})
 	pQueueWithMultipleItems.Push(PQItem{value: "hiya", priority: 2})
 
-	heapFromPQueueWithSingleItemAfterPop := heap.NewMaxHeap() // becomes empty; left for read- and reason-ability
+	heapFromPQueueWithSingleItemAfterPop := heap2.NewMaxHeap() // becomes empty; left for read- and reason-ability
 
-	heapFromPQueueWithMultipleItemsAfterPop := heap.NewMaxHeap()
-	heapFromPQueueWithMultipleItemsAfterPop.Add(heap.NewNode(1, "hello")) // heap left with one node after pop
+	heapFromPQueueWithMultipleItemsAfterPop := heap2.NewMaxHeap()
+	heapFromPQueueWithMultipleItemsAfterPop.Add(heap2.NewNode(1, "hello")) // heap left with one node after pop
 
 	testScenarios := []scenario{
 		{
@@ -142,7 +142,7 @@ func TestPriorityQueue_Pop(t *testing.T) {
 			expectedValue:  nil,
 			expectedErr:    fmt.Errorf("priority queue: pop called on empty queue"),
 			expectedLength: 0,
-			underlyingHeap: heap.NewMaxHeap(), // empty heap
+			underlyingHeap: heap2.NewMaxHeap(), // empty heap
 		},
 		{
 			name:           "pop on queue with single item",

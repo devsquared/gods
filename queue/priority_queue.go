@@ -2,7 +2,7 @@ package queue
 
 import (
 	"fmt"
-	"github.com/devsquared/gods/queue/heap"
+	heap2 "github.com/devsquared/gods/heap"
 	"reflect"
 )
 
@@ -17,14 +17,14 @@ type PQItem struct {
 // The higher the queue, the sooner it pops from the queue. Due to utilizing a slice-based max heap for implementation,
 // resizing and sorting is done as items are added or popped from the queue.
 type PriorityQueue struct {
-	Heap  *heap.MaxHeap
+	Heap  *heap2.MaxHeap
 	Count int
 }
 
 // NewPriorityQueue is a simple constructor that creates an empty priority queue.
 func NewPriorityQueue() *PriorityQueue {
 	return &PriorityQueue{
-		Heap:  heap.NewMaxHeap(),
+		Heap:  heap2.NewMaxHeap(),
 		Count: 0,
 	}
 }
@@ -49,7 +49,7 @@ func (q *PriorityQueue) Pop() (any, error) {
 func (q *PriorityQueue) Push(element any) {
 	// in the case that an empty struct was used, let's initialize the underlying heap
 	if q.Heap == nil {
-		q.Heap = heap.NewMaxHeap()
+		q.Heap = heap2.NewMaxHeap()
 	}
 
 	var item PQItem
@@ -59,7 +59,7 @@ func (q *PriorityQueue) Push(element any) {
 		item = element.(PQItem)
 	}
 
-	newHeapNode := heap.NewNode(item.priority, item.value)
+	newHeapNode := heap2.NewNode(item.priority, item.value)
 	q.Heap.Add(newHeapNode)
 	q.Count++
 }
