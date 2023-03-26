@@ -100,7 +100,7 @@ func TestPriorityQueue_Peek(t *testing.T) {
 			test.ReportTestFailure(ts.name, actualValue, ts.expectedValue)
 		}
 
-		test.CheckErrorsAreSame(actualErr, ts.expectedErr)
+		test.IsErrSame(actualErr, ts.expectedErr)
 
 		if ts.queue.Length() != ts.expectedLength {
 			test.ReportTestFailure(ts.name, ts.queue.Length(), ts.expectedLength)
@@ -169,7 +169,7 @@ func TestPriorityQueue_Pop(t *testing.T) {
 			test.ReportTestFailure(ts.name, actualValue, ts.expectedValue)
 		}
 
-		test.CheckErrorsAreSame(actualErr, ts.expectedErr)
+		test.IsErrSame(actualErr, ts.expectedErr)
 
 		if ts.queue.Length() != ts.expectedLength {
 			test.ReportTestFailure(ts.name, ts.queue.Length(), ts.expectedLength)

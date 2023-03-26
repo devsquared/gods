@@ -109,7 +109,7 @@ func TestMaxHeap_Pop(t *testing.T) {
 	for _, ts := range testScenarios {
 		actualValue, actualErr := ts.startingHeap.Pop()
 
-		test.CheckErrorsAreSame(actualErr, ts.expectedErr)
+		test.IsErrSame(actualErr, ts.expectedErr)
 
 		if actualValue != ts.expectedValue {
 			t.Fatalf(test.ReportTestFailure(ts.name, actualValue, ts.expectedValue))
@@ -175,7 +175,7 @@ func TestMaxHeap_GetFirstValue(t *testing.T) {
 	for _, ts := range testScenarios {
 		actualValue, actualErr := ts.heap.GetFirstValue()
 
-		test.CheckErrorsAreSame(actualErr, ts.expectedErr)
+		test.IsErrSame(actualErr, ts.expectedErr)
 
 		if actualValue != ts.expectedValue {
 			t.Fatalf(test.ReportTestFailure(ts.name, actualValue, ts.expectedValue))
