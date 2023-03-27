@@ -2,7 +2,7 @@ package queue
 
 import (
 	"fmt"
-	"github.com/devsquared/gobber/pkg/queue/test"
+	"github.com/devsquared/gods/test"
 	"github.com/google/go-cmp/cmp"
 	"testing"
 )
@@ -43,7 +43,7 @@ func TestRingQueue_Length(t *testing.T) {
 		actualLength := ts.queue.Length()
 
 		if actualLength != ts.expectedLength {
-			test.ReportTestFailure(ts.name, actualLength, ts.expectedLength)
+			test.ReportTestFailure(t, actualLength, ts.expectedLength)
 		}
 	}
 }
@@ -93,22 +93,26 @@ func TestRingQueue_Peek(t *testing.T) {
 	}
 
 	for _, ts := range testScenarios {
-		actualValue, actualErr := ts.queue.Peek()
+		t.Run(ts.name, func(t *testing.T) {
+			actualValue, actualErr := ts.queue.Peek()
 
-		if actualValue != ts.expectedValue {
-			test.ReportTestFailure(ts.name, actualValue, ts.expectedValue)
-		}
+			if actualValue != ts.expectedValue {
+				test.ReportTestFailure(t, actualValue, ts.expectedValue)
+			}
 
-		test.CheckErrorsAreSame(actualErr, ts.expectedErr)
+			if !test.IsErrSame(actualErr, ts.expectedErr) {
+				test.ReportTestFailure(t, actualErr, ts.expectedErr)
+			}
 
-		if ts.queue.Length() != ts.expectedLength {
-			test.ReportTestFailure(ts.name, ts.queue.Length(), ts.expectedLength)
-		}
+			if ts.queue.Length() != ts.expectedLength {
+				test.ReportTestFailure(t, ts.queue.Length(), ts.expectedLength)
+			}
 
-		// make sure that the queue is unchanged by a peek
-		if !cmp.Equal(ts.queue, ts.copiedQueue) {
-			test.ReportTestFailure(ts.name, ts.queue, ts.copiedQueue)
-		}
+			// make sure that the queue is unchanged by a peek
+			if !cmp.Equal(ts.queue, ts.copiedQueue) {
+				test.ReportTestFailure(t, ts.queue, ts.copiedQueue)
+			}
+		})
 	}
 }
 
@@ -159,22 +163,26 @@ func TestRingQueue_Pop(t *testing.T) {
 	}
 
 	for _, ts := range testScenarios {
-		actualValue, actualErr := ts.queue.Pop()
+		t.Run(ts.name, func(t *testing.T) {
+			actualValue, actualErr := ts.queue.Pop()
 
-		if actualValue != ts.expectedValue {
-			test.ReportTestFailure(ts.name, actualValue, ts.expectedValue)
-		}
+			if actualValue != ts.expectedValue {
+				test.ReportTestFailure(t, actualValue, ts.expectedValue)
+			}
 
-		test.CheckErrorsAreSame(actualErr, ts.expectedErr)
+			if !test.IsErrSame(actualErr, ts.expectedErr) {
+				test.ReportTestFailure(t, actualErr, ts.expectedErr)
+			}
 
-		if ts.queue.Length() != ts.expectedLength {
-			test.ReportTestFailure(ts.name, ts.queue.Length(), ts.expectedLength)
-		}
+			if ts.queue.Length() != ts.expectedLength {
+				test.ReportTestFailure(t, ts.queue.Length(), ts.expectedLength)
+			}
 
-		// make sure that the underlying is as expected after pop
-		if !cmp.Equal(ts.queue, ts.expectedQueue) {
-			test.ReportTestFailure(ts.name, ts.queue, ts.expectedQueue)
-		}
+			// make sure that the underlying is as expected after pop
+			if !cmp.Equal(ts.queue, ts.expectedQueue) {
+				test.ReportTestFailure(t, ts.queue, ts.expectedQueue)
+			}
+		})
 	}
 }
 
@@ -226,16 +234,18 @@ func TestRingQueue_Push(t *testing.T) {
 	}
 
 	for _, ts := range testScenarios {
-		ts.queue.Push(ts.input)
+		t.Run(ts.name, func(t *testing.T) {
+			ts.queue.Push(ts.input)
 
-		if ts.queue.Length() != ts.expectedLength {
-			test.ReportTestFailure(ts.name, ts.queue.Length(), ts.expectedLength)
-		}
+			if ts.queue.Length() != ts.expectedLength {
+				test.ReportTestFailure(t, ts.queue.Length(), ts.expectedLength)
+			}
 
-		// make sure that the underlying is as expected after pop
-		if !cmp.Equal(ts.queue, ts.expectedQueue) {
-			test.ReportTestFailure(ts.name, ts.queue, ts.expectedQueue)
-		}
+			// make sure that the underlying is as expected after pop
+			if !cmp.Equal(ts.queue, ts.expectedQueue) {
+				test.ReportTestFailure(t, ts.queue, ts.expectedQueue)
+			}
+		})
 	}
 }
 
@@ -271,10 +281,12 @@ func TestRingQueue_Push_Resize(t *testing.T) {
 	}
 
 	for _, ts := range testScenarios {
-		actualBufferSize := len(ts.queue.Buffer)
-		if actualBufferSize != ts.expectedBufferSize {
-			test.ReportTestFailure(ts.name, actualBufferSize, ts.expectedBufferSize)
-		}
+		t.Run(ts.name, func(t *testing.T) {
+			actualBufferSize := len(ts.queue.Buffer)
+			if actualBufferSize != ts.expectedBufferSize {
+				test.ReportTestFailure(t, actualBufferSize, ts.expectedBufferSize)
+			}
+		})
 	}
 }
 
@@ -308,9 +320,11 @@ func TestRingQueue_Pop_Resize(t *testing.T) {
 	}
 
 	for _, ts := range testScenarios {
-		actualBufferSize := len(ts.queue.Buffer)
-		if actualBufferSize != ts.expectedBufferSize {
-			test.ReportTestFailure(ts.name, actualBufferSize, ts.expectedBufferSize)
-		}
+		t.Run(ts.name, func(t *testing.T) {
+			actualBufferSize := len(ts.queue.Buffer)
+			if actualBufferSize != ts.expectedBufferSize {
+				test.ReportTestFailure(t, actualBufferSize, ts.expectedBufferSize)
+			}
+		})
 	}
 }

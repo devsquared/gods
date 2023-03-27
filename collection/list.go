@@ -1,5 +1,8 @@
 package collection
 
+//TODO: should this be of type comparable? or should comparabilty be handled in an iterator or similar?
+
+// List defines an unordered collection of any data.
 type List[T any] struct {
 	coreSlice []T
 	size      int
@@ -27,13 +30,31 @@ func (l *List[T]) Empty() {
 	l.coreSlice = make([]T, 0)
 }
 
-//TODO: add these via TDD. we will want the following functions for a list:
-// - add
-// - remove
-// - set
-// - get
-// - empty
-// - length
+// Add appends a new value.
+func (l *List[T]) Add(value T) {
+	l.coreSlice = append(l.coreSlice, value)
+	l.size++
+}
+
+// Remove will take out the element at the given index from the List.
+func (l *List[T]) Remove(index int) {
+
+}
+
+// Set will add the value to the list at the given index.
+func (l *List[T]) Set(value T, index int) {
+
+}
+
+// Get will get the element at the given index.
+func (l *List[T]) Get(index int) any {
+	return nil //change any to T
+}
+
+// Length returns the size of the List.
+func (l *List[T]) Length() int {
+	return l.size
+}
 
 //TODO: things to consider
 // - basic iterator

@@ -1,9 +1,12 @@
 package test
 
-import "fmt"
+import (
+	"fmt"
+	"testing"
+)
 
-func ReportTestFailure(scenarioName string, got, wanted any) string {
-	return fmt.Sprintf("scenario: %s \n\t got: %v, wanted: %v", scenarioName, got, wanted)
+func ReportTestFailure(t *testing.T, got, wanted any) {
+	t.Errorf(fmt.Sprintf("scenario: %s \n\t got: %v, wanted: %v", t.Name(), got, wanted))
 }
 
 func IsErrSame(actualErr, expectedErr error) bool {

@@ -6,29 +6,29 @@ import (
 	"testing"
 )
 
-func Test_NewList(t *testing.T) {
+func TestNewList(t *testing.T) {
 	newList := NewList[int]()
 
 	if newList.size != 0 {
-		test.ReportTestFailure(t.Name(), newList.size, 0)
+		test.ReportTestFailure(t, newList.size, 0)
 	}
 }
 
-func Test_NewListFromSlice(t *testing.T) {
+func TestNewListFromSlice(t *testing.T) {
 	startingSlice := []string{"ello there", "oy"}
 
 	newList := NewListFromSlice[string](startingSlice)
 
 	if !cmp.Equal(newList.coreSlice, startingSlice) {
-		test.ReportTestFailure(t.Name(), newList.coreSlice, startingSlice)
+		test.ReportTestFailure(t, newList.coreSlice, startingSlice)
 	}
 
 	if newList.size != len(startingSlice) {
-		test.ReportTestFailure(t.Name(), newList.size, len(startingSlice))
+		test.ReportTestFailure(t, newList.size, len(startingSlice))
 	}
 }
 
-func Test_Empty(t *testing.T) {
+func TestList_Empty(t *testing.T) {
 	startingSlice := []string{"ello there", "oy"}
 
 	newList := NewListFromSlice[string](startingSlice)
@@ -40,12 +40,29 @@ func Test_Empty(t *testing.T) {
 	expectedCoreSlice := expectedList.coreSlice
 
 	if !cmp.Equal(actualCoreSlice, expectedCoreSlice) {
-		test.ReportTestFailure(t.Name(), actualCoreSlice, expectedCoreSlice)
+		test.ReportTestFailure(t, actualCoreSlice, expectedCoreSlice)
 	}
 
 	actualSize := newList.size
 	expectedSize := expectedList.size
 	if actualSize != expectedSize {
-		test.ReportTestFailure(t.Name(), actualSize, expectedSize)
+		test.ReportTestFailure(t, actualSize, expectedSize)
+	}
+}
+
+func TestList_Add(t *testing.T) {
+	startingSlice := []string{"startingElement"}
+
+	listFromSlice := NewListFromSlice[string](startingSlice)
+
+	newElement := "newElement"
+	expectedSlice := append(startingSlice, newElement)
+
+	listFromSlice.Add(newElement)
+
+	actualSlice := listFromSlice.coreSlice
+
+	if !cmp.Equal(actualSlice, expectedSlice) {
+		test.ReportTestFailure(t, actualSlice, expectedSlice)
 	}
 }

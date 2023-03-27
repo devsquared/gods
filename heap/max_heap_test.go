@@ -7,9 +7,6 @@ import (
 	"testing"
 )
 
-// When testing the heap, it is important to understand how the slice implementation works. To test that the
-// heap is in a good state at any given moment, we can directly check the underlying slice.
-
 func TestBinaryHeap_Add(t *testing.T) {
 	type scenario struct {
 		name         string
@@ -56,13 +53,15 @@ func TestBinaryHeap_Add(t *testing.T) {
 	}
 
 	for _, ts := range testScenarios {
-		// add the new input node
-		ts.startingHeap.Add(ts.input)
+		t.Run(ts.name, func(t *testing.T) {
+			// add the new input node
+			ts.startingHeap.Add(ts.input)
 
-		actualHeap := ts.startingHeap.Heap
-		if !cmp.Equal(actualHeap, ts.expected) {
-			t.Fatalf(test.ReportTestFailure(ts.name, actualHeap, ts.expected))
-		}
+			actualHeap := ts.startingHeap.Heap
+			if !cmp.Equal(actualHeap, ts.expected) {
+				test.ReportTestFailure(t, actualHeap, ts.expected)
+			}
+		})
 	}
 }
 
@@ -107,18 +106,20 @@ func TestMaxHeap_Pop(t *testing.T) {
 	}
 
 	for _, ts := range testScenarios {
-		actualValue, actualErr := ts.startingHeap.Pop()
+		t.Run(ts.name, func(t *testing.T) {
+			actualValue, actualErr := ts.startingHeap.Pop()
 
-		test.IsErrSame(actualErr, ts.expectedErr)
+			test.IsErrSame(actualErr, ts.expectedErr)
 
-		if actualValue != ts.expectedValue {
-			t.Fatalf(test.ReportTestFailure(ts.name, actualValue, ts.expectedValue))
-		}
+			if actualValue != ts.expectedValue {
+				test.ReportTestFailure(t, actualValue, ts.expectedValue)
+			}
 
-		actualHeap := ts.startingHeap.Heap
-		if !cmp.Equal(actualHeap, ts.expectedRemainingHeap) {
-			t.Fatalf(test.ReportTestFailure(ts.name, actualHeap, ts.expectedRemainingHeap))
-		}
+			actualHeap := ts.startingHeap.Heap
+			if !cmp.Equal(actualHeap, ts.expectedRemainingHeap) {
+				test.ReportTestFailure(t, actualHeap, ts.expectedRemainingHeap)
+			}
+		})
 	}
 }
 
@@ -173,17 +174,19 @@ func TestMaxHeap_GetFirstValue(t *testing.T) {
 	}
 
 	for _, ts := range testScenarios {
-		actualValue, actualErr := ts.heap.GetFirstValue()
+		t.Run(ts.name, func(t *testing.T) {
+			actualValue, actualErr := ts.heap.GetFirstValue()
 
-		test.IsErrSame(actualErr, ts.expectedErr)
+			test.IsErrSame(actualErr, ts.expectedErr)
 
-		if actualValue != ts.expectedValue {
-			t.Fatalf(test.ReportTestFailure(ts.name, actualValue, ts.expectedValue))
-		}
+			if actualValue != ts.expectedValue {
+				test.ReportTestFailure(t, actualValue, ts.expectedValue)
+			}
 
-		actualHeap := ts.heap.Heap
-		if !cmp.Equal(actualHeap, ts.expectedHeap) {
-			t.Fatalf(test.ReportTestFailure(ts.name, actualHeap, ts.expectedHeap))
-		}
+			actualHeap := ts.heap.Heap
+			if !cmp.Equal(actualHeap, ts.expectedHeap) {
+				test.ReportTestFailure(t, actualHeap, ts.expectedHeap)
+			}
+		})
 	}
 }
