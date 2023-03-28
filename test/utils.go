@@ -10,6 +10,10 @@ func ReportTestFailure(t *testing.T, got, wanted any) {
 }
 
 func IsErrSame(actualErr, expectedErr error) bool {
+	if actualErr == nil && expectedErr == nil {
+		return true
+	}
+
 	if actualErr != nil && expectedErr != nil {
 		if actualErr.Error() == expectedErr.Error() {
 			// if both errors are non-nil and the same, they are the same
