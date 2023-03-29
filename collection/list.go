@@ -38,17 +38,41 @@ func (l *List[T]) Add(value T) {
 
 // Remove will take out the element at the given index from the List.
 func (l *List[T]) Remove(index int) {
+	// properly panic for index out of bounds
+	if index < 0 || index > len(l.coreSlice) {
+		panic("list: index out of bounds")
+	}
 
+	// make a new slice and replace rather than modifying the other one
+	newCoreSlice := make([]T, 0)
+	newCoreSlice = append(newCoreSlice, l.coreSlice[:index]...)
+	newCoreSlice = append(newCoreSlice, l.coreSlice[index+1:]...)
+	l.coreSlice = newCoreSlice
+	l.size = len(newCoreSlice)
 }
 
 // Set will add the value to the list at the given index.
 func (l *List[T]) Set(value T, index int) {
+	// properly panic for index out of bounds
+	if index < 0 || index > len(l.coreSlice) {
+		panic("list: index out of bounds")
+	}
 
+	if index == 0 && len(l.coreSlice) == 0 {
+		l.coreSlice = append(l.coreSlice, value)
+	} else {
+		l.coreSlice[index] = value
+	}
 }
 
 // Get will get the element at the given index.
 func (l *List[T]) Get(index int) any {
-	return nil //change any to T
+	// properly panic for index out of bounds
+	if index < 0 || index > len(l.coreSlice) {
+		panic("list: index out of bounds")
+	}
+
+	return l.coreSlice[index]
 }
 
 // Length returns the size of the List.
