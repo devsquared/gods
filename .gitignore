@@ -19,4 +19,5 @@ go.work
 
 # IDE stuffs
 .idea
+.DS_Store
 .vscode/
